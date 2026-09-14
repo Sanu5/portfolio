@@ -1,0 +1,77 @@
+/* Ferrari design tokens — from DESIGN-ferrari.md. FerrariSans is licensed; Inter (documented substitute) at weight 500. */
+:root {
+  /* colors */
+  --primary: #da291c;
+  --primary-active: #b01e0a;
+  --primary-hover: #9d2211;
+  --ink: #ffffff;
+  --body: #969696;
+  --body-strong: #ffffff;
+  --body-on-light: #181818;
+  --muted: #666666;
+  --muted-soft: #8f8f8f;
+  --hairline: #303030;
+  --hairline-on-light: #d2d2d2;
+  --hairline-soft: #ebebeb;
+  --canvas: #181818;
+  --canvas-elevated: #303030;
+  --canvas-light: #ffffff;
+  --surface-card: #303030;
+  --surface-soft-light: #f7f7f7;
+  --surface-strong-light: #ebebeb;
+  --on-primary: #ffffff;
+  --on-dark: #ffffff;
+  --on-light: #181818;
+  --semantic-info: #4c98b9;
+  --semantic-success: #03904a;
+  --semantic-warning: #f13a2c;
+
+  /* gradients */
+  --grad-red: linear-gradient(180deg, #a00c01, #da291c 64%);
+  --grad-dark: linear-gradient(180deg, #3c3c3c, #030303 64%);
+
+  /* type */
+  --font: 'Inter Variable', 'FerrariSans', -apple-system, system-ui, sans-serif;
+  --display-mega: clamp(44px, 7.4vw, 96px);
+  --display-xl: clamp(34px, 4.4vw, 56px);
+  --display-lg: clamp(26px, 3vw, 36px);
+  --display-md: 26px;
+  --title-md: 18px;
+  --title-sm: 16px;
+  --body-md: 14px;
+  --body-sm: 13px;
+  --caption: 12px;
+  --caption-upper: 11px;
+  --button: 14px;
+  --nav-link: 13px;
+  --number-display: clamp(56px, 6.5vw, 80px);
+
+  /* radius */
+  --r-none: 0px;
+  --r-xs: 2px;
+  --r-sm: 4px;
+  --r-md: 6px;
+  --r-lg: 8px;
+  --r-xl: 12px;
+  --r-full: 9999px;
+
+  /* spacing ladder (8px) */
+  --xxxs: 4px;
+  --xxs: 8px;
+  --xs: 16px;
+  --sm: 24px;
+  --md: 32px;
+  --lg: 48px;
+  --xl: 64px;
+  --xxl: 96px;
+  --super: 128px;
+
+  /* layout */
+  --container: 1280px;
+  --gutter: clamp(20px, 4vw, 48px);
+  --nav-h: 64px;
+
+  /* motion */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-inout: cubic-bezier(0.83, 0, 0.17, 1);
+}
