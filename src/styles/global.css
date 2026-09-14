@@ -170,7 +170,8 @@ section { position: relative; }
 
 /* ---------- about ---------- */
 .about { min-height: 100svh; display: flex; align-items: center; }
-.split { display: grid; grid-template-columns: 1fr; gap: var(--lg); width: 100%; }
+.about > .container { flex: 0 1 auto; }
+.split { display: grid; grid-template-columns: 1fr; gap: var(--lg); }
 @media (min-width: 900px) { .split { grid-template-columns: 1fr 1fr; } .split > .copy { grid-column: 2; } }
 .about .copy { max-width: 560px; }
 .about .display-xl { margin-bottom: var(--sm); }
@@ -385,4 +386,5 @@ main { transition: opacity .7s var(--ease-inout), filter .7s var(--ease-inout); 
   .launch .btn-primary { padding-inline: 20px; font-size: 13px; }
   .spec-cell { padding: var(--xs) var(--xs) var(--sm); }
   .spec-cell .number-display { font-size: 36px; }
+  .facts li { grid-template-columns: 76px 1fr; }
 }
