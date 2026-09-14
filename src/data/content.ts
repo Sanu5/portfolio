@@ -1,4 +1,5 @@
 // All copy lives here so the sections stay dumb. Source: Anish_ work_resume.pdf (Sept 2026).
+import { asset } from '../lib/asset'
 
 export const profile = {
   first: 'Anish',
@@ -8,7 +9,7 @@ export const profile = {
   location: 'New Delhi, IN',
   email: 'biswalworkanish@gmail.com',
   tagline: 'I write the benchmarks frontier models fail — and ship the apps people actually use.',
-  resume: '/Anish_Biswal_Resume.pdf',
+  resume: asset('Anish_Biswal_Resume.pdf'),
   links: {
     linkedin: 'https://www.linkedin.com/in/anish-biswal-03b587219/',
     github: 'https://github.com/Sanu5',
@@ -126,7 +127,7 @@ export const projects: Project[] = [
     ],
     gradient: 'radial-gradient(120% 140% at 0% 100%, #5a1410 0%, #2a1a1a 45%, #1c1c1c 100%)',
     glyph: 'M',
-    images: ['/projects/mehfil-1.png', '/projects/mehfil-2.png', '/projects/mehfil-3.png'],
+    images: [asset('projects/mehfil-1.png'), asset('projects/mehfil-2.png'), asset('projects/mehfil-3.png')],
     study: {
       role: 'Design, iOS, Android, backend — solo',
       problem: 'Wedding vendors in India run a season of overlapping events on WhatsApp and paper: crew get double-booked, deposits go unchased, and nobody has one view of Saturday.',

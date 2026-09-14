@@ -6,6 +6,7 @@ import { ToneMappingMode } from 'postprocessing'
 import { PCFShadowMap, Vector3 } from 'three'
 import { Car } from './Car'
 import { isNarrow, rig } from './rig'
+import { asset } from '../lib/asset'
 
 const WHEEL_RADIUS = 0.34
 const CANVAS = '#181818'
@@ -59,7 +60,7 @@ function CarDriver() {
 function Studio() {
   return (
     <>
-      <Environment files="/hdr/studio_small_09_1k.hdr" resolution={512} frames={1} environmentIntensity={0.55}>
+      <Environment files={asset('hdr/studio_small_09_1k.hdr')} resolution={512} frames={1} environmentIntensity={0.55}>
         <Lightformer intensity={3} rotation-x={Math.PI / 2} position={[0, 4.5, -1.5]} scale={[16, 0.8, 1]} />
         <Lightformer intensity={3} rotation-x={Math.PI / 2} position={[0, 4.5, 2.5]} scale={[16, 0.8, 1]} />
         <Lightformer intensity={1.2} rotation-y={Math.PI / 2} position={[-8, 1.6, 0]} scale={[16, 1.2, 1]} />

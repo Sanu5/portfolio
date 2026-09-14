@@ -1,4 +1,5 @@
 import { SynthEngine } from './engine-synth'
+import { asset } from './asset'
 
 /**
  * Engine audio. Real Ferrari recordings (see scripts/make-engine-audio.py): three seamless loops
@@ -33,7 +34,7 @@ const bytes = new Map<Name, Promise<ArrayBuffer>>()
 /** Fetch the clips early (no AudioContext needed) so the launch tap only has to decode. */
 export function prefetchEngineAudio() {
   for (const n of FILES) {
-    if (!bytes.has(n)) bytes.set(n, fetch(`/audio/${n}.m4a`).then((r) => (r.ok ? r.arrayBuffer() : Promise.reject(new Error(r.statusText)))))
+    if (!bytes.has(n)) bytes.set(n, fetch(asset(`audio/${n}.m4a`)).then((r) => (r.ok ? r.arrayBuffer() : Promise.reject(new Error(r.statusText)))))
   }
 }
 

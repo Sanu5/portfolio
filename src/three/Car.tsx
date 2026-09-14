@@ -13,11 +13,12 @@ import {
   type Material,
 } from 'three'
 import { pose, rig } from './rig'
+import { asset } from '../lib/asset'
 import { useSite } from '../store'
 
 /** Baked from "2026 Ferrari 296 Speciale A" by OUTPISTON (Sketchfab, CC BY-NC-SA 4.0) — see scripts/bake-car.mjs. */
-const MODEL = '/models/ferrari-296.glb'
-const DRACO = '/draco/'
+const MODEL = asset('models/ferrari-296.glb')
+const DRACO = asset('draco/')
 
 const ROSSO_CORSA = '#da291c'
 
