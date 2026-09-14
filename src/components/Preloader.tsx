@@ -58,39 +58,35 @@ export function Preloader() {
     return () => window.clearTimeout(t)
   }, [setGaveUp])
 
-  const launch = async (withSound: boolean) => {
+  const launch = (withSound: boolean) => {
     if (launched.current) return
     launched.current = true
-    let ignition = 0
-    if (withSound) {
-      const engine = await createEngine() // decodes the clips; the gesture already unlocked audio
-      if (engine) {
-        engine.rpm = 900
-        await engine.start(0.4)
-        ignition = engine.ignition() // engine turns over, settles to idle
-        setEngine(engine)
-      }
-    }
-    // fifth light, hold (long enough to hear the engine catch), lights out
-    const hold = Math.max(900, Math.min(2600, ignition * 1000 * 0.45))
-    window.setTimeout(() => setLit(COLUMNS), 250)
-    window.setTimeout(() => {
+    // engine decodes in parallel with the hold; the tap already unlocked audio
+    const enginePromise = withSound
+      ? createEngine().then(async (engine) => {
+          if (engine) {
+            engine.rpm = 900
+            await engine.start(0.4)
+            engine.ignition()
+            setEngine(engine)
+          }
+          return engine
+        })
+      : Promise.resolve(null)
+    setLit(COLUMNS) // fifth light on the tap
+    const hold = 850 + Math.round(Math.random() * 350) // a little jitter, like the real start
+    window.setTimeout(async () => {
+      await Promise.race([enginePromise, new Promise((r) => window.setTimeout(r, 450))])
       setLit(0)
-      setPhase('intro')
-      gsap.to(root.current, {
-        autoAlpha: 0,
-        duration: 0.7,
-        ease: 'power2.inOut',
-        delay: 0.25,
-        onComplete: () => setGone(true),
-      })
-    }, 250 + hold + Math.round(Math.random() * 500)) // a little jitter, like the real start
+      setPhase('intro') // the car launches behind the overlay as it clears
+      gsap.to(root.current, { autoAlpha: 0, duration: 0.4, ease: 'power2.out', onComplete: () => setGone(true) })
+    }, hold)
   }
 
   // silent auto-launch if nobody taps
   useEffect(() => {
     if (!armed) return
-    const t = window.setTimeout(() => void launch(false), AUTO_LAUNCH_MS)
+    const t = window.setTimeout(() => launch(false), AUTO_LAUNCH_MS)
     return () => window.clearTimeout(t)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [armed])
@@ -113,10 +109,10 @@ export function Preloader() {
         <span>{lit === COLUMNS ? 'Lights out' : armed ? 'On the grid' : 'Formation lap'}</span>
       </div>
       <div className={`launch${armed && lit < COLUMNS ? ' is-ready' : ''}`}>
-        <button className="btn btn-primary" onClick={() => void launch(true)}>
+        <button className="btn btn-primary" onClick={() => launch(true)}>
           <span className="spk" aria-hidden="true">◉</span> Lights out — with sound
         </button>
-        <button className="btn btn-text" onClick={() => void launch(false)}>Enter quietly</button>
+        <button className="btn btn-text" onClick={() => launch(false)}>Enter quietly</button>
       </div>
     </div>
   )

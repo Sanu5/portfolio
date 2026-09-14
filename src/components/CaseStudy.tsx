@@ -8,13 +8,12 @@ import { useSite } from '../store'
 export function CaseStudy() {
   const slug = useSite((s) => s.openProject)
   const setOpen = useSite((s) => s.setOpenProject)
-  const engine = useSite((s) => s.engine)
   const project = projects.find((p) => p.slug === slug)
 
   useEffect(() => {
     if (!slug) return
     lockScroll()
-    openBay(engine)
+    openBay()
     document.documentElement.classList.add('bay-open')
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') setOpen(null)
@@ -26,7 +25,6 @@ export function CaseStudy() {
       unlockScroll()
       document.documentElement.classList.remove('bay-open')
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [slug, setOpen])
 
   return (

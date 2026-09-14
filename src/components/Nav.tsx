@@ -3,7 +3,6 @@ import { nav, profile } from '../data/content'
 import { getLenis, scrollTo } from '../lib/scroll'
 import { useSite } from '../store'
 import { LapTimer } from './LapTimer'
-import { SoundToggle } from './SoundToggle'
 
 export function Nav() {
   const phase = useSite((s) => s.phase)
@@ -43,7 +42,6 @@ export function Nav() {
         </nav>
         <div className="nav-right">
           <LapTimer />
-          <SoundToggle />
           <a className="btn btn-outline nav-cta" href={profile.resume} target="_blank" rel="noreferrer">
             Résumé
           </a>

@@ -27,14 +27,14 @@ npm run preview
 | `src/three/Car.tsx` | Loads `public/models/ferrari-296.glb` (Draco), paint/glass/rim materials, headlight + brake-light materials and beam spotlights. |
 | `src/lib/engine.ts` | Engine audio: real Ferrari recordings as rpm-crossfaded loops + one-shots (start, launch pull, blip); `engine-synth.ts` is the procedural fallback. Created only from a user gesture. |
 | `scripts/make-engine-audio.py` | Cuts/loops the Freesound clips into `public/audio/*.m4a` (numpy + macOS `afconvert`). |
-| `src/components/*` | Preloader (start lights + launch gate), Nav (+ lap timer, sound toggle), Hero, About, Experience, Projects, CaseStudy (garage bay), Skills, Contact, Footer (contribution weave), Cursor (tachometer). |
+| `src/components/*` | Preloader (start lights + launch gate), Nav (+ lap timer, sound toggle), Hero, About, Experience, Projects, CaseStudy (garage bay), Skills, Contact, Footer (contribution weave), Cursor (dot + ring). |
 | `scripts/bake-car.mjs` | Sketchfab glTF → static, Draco-compressed GLB: bakes the skin, poses the door closed, names wheels/lamps, repaints. |
 | `scripts/fetch-contributions.mjs` | Bakes the GitHub contribution calendar to `src/data/contributions.json` (`npm run contributions`). |
 
 ### Page flow
-1. **Preloader** — four start-light columns come on as the model loads (the fourth waits until the car is actually in the scene). Then a launch gate: *Lights out — with sound* turns the engine over from the tap (a real "engine on" recording, then idle); doing nothing launches silently after 6 s. The nav's sound toggle can start the engine later.
-2. **Lights out** — the car launches in from the right with brake lights flaring as it hauls down, nose-dives, settles, and the headlights come on as it turns to the hero angle while the name reveals.
-3. **Scroll** — one scrubbed GSAP timeline moves the car between poses: side profile (About) → parked in the distance (Experience) → drives off (Projects) → head-on approach (Skills) → drives off (Contact). Wheels roll from real displacement. Engine rpm follows scroll speed (idle → ~7,000 at full tilt) and the tachometer cursor's needle shows it.
+1. **Preloader** — four start-light columns come on as the model loads (the fourth waits until the car is actually in the scene). Then a launch gate: *Lights out — with sound* lights the fifth column on the tap, the engine turns over (a real "engine on" recording), and ~1 s later the lights go out; doing nothing launches silently after 6 s.
+2. **Lights out** — the car launches in from the right with brake lights flaring as it hauls down, nose-dives, settles, and the headlights come on as it turns to the hero angle while the name reveals. The launch pull plays under it, the engine settles as the car stops, then fades out — sound belongs to the launch only; nothing plays on the page or while scrolling.
+3. **Scroll** — one scrubbed GSAP timeline moves the car between poses: side profile (About) → parked in the distance (Experience) → drives off (Projects) → head-on approach (Skills) → drives off (Contact). Wheels roll from real displacement. On portrait phones the car leaves the frame for the text sections and returns head-on for Skills.
 4. **Garage bays** — click a project card: the page steps back, the car rolls under a volumetric spotlight on the left and the case study slides in on the right. Closing eases the car back to the scroll pose before ScrollTrigger resumes.
 
 ### The car

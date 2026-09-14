@@ -22,13 +22,7 @@ export function runIntro(onDone: () => void, reduced: boolean, engine?: EngineLi
     return
   }
 
-  rig.rpmLocked = true
-  const tl = gsap.timeline({
-    onComplete: () => {
-      rig.rpmLocked = false
-      onDone()
-    },
-  })
+  const tl = gsap.timeline({ onComplete: onDone })
   tl.fromTo(car.position, { x: pose('intro').x }, { x: hero.x, duration: 2.4, ease: 'expo.out' }, 0)
     .to(rig.lamp, { brake: 1, duration: 0.2, ease: 'power2.out' }, 0.1)
     .to(body.rotation, { x: -0.032, duration: 0.3, ease: 'power2.out' }, 0.15)
@@ -38,23 +32,19 @@ export function runIntro(onDone: () => void, reduced: boolean, engine?: EngineLi
     .to(rig.view, { ...view(hero), duration: 2.1, ease: 'power3.inOut' }, 1.0)
     .to(rig.lamp, { head: 1, duration: 0.35, ease: 'power3.in' }, 2.35)
 
-  // rpm score for the tachometer (and the synth): full-throttle pull, upshift, haul down to idle
-  rig.rpm = 2200
-  tl.to(rig, { rpm: 8300, duration: 0.85, ease: 'power2.out' }, 0)
-    .to(rig, { rpm: 5600, duration: 0.12, ease: 'power1.out' }, 0.85)
-    .to(rig, { rpm: 7800, duration: 0.45, ease: 'power1.out' }, 0.97)
-    .to(rig, { rpm: 1100, duration: 1.4, ease: 'power2.out' }, 1.4)
-    .to(rig, { rpm: 950, duration: 1.2, ease: 'sine.inOut' }, 2.8)
-
   if (engine) {
+    // Sound belongs to the launch only: the real pull plays under the drive-in, the engine
+    // settles as the car stops, then fades out for good. (The synth fallback follows the rpm score.)
     engine.throttle = 1
-    if (engine.kind === 'samples') {
-      // the real pull carries the sound; loops are ducked underneath and return at idle
-      tl.add(() => engine.launch(), 0)
-    } else {
-      tl.add(() => engine.blip(), 0.85)
-    }
-    tl.add(() => { engine.throttle = 0 }, 1.4)
+    engine.rpm = 2200
+    if (engine.kind === 'samples') tl.add(() => engine.launch(), 0)
+    tl.to(engine, { rpm: 8300, duration: 0.85, ease: 'power2.out' }, 0)
+      .to(engine, { rpm: 5600, duration: 0.12, ease: 'power1.out' }, 0.85)
+      .to(engine, { rpm: 7800, duration: 0.45, ease: 'power1.out' }, 0.97)
+      .add(() => { engine.throttle = 0 }, 1.4)
+      .to(engine, { rpm: 1100, duration: 1.4, ease: 'power2.out' }, 1.4)
+      .to(engine, { rpm: 950, duration: 1.2, ease: 'sine.inOut' }, 2.8)
+    window.setTimeout(() => engine.stop(2.4), 6200)
   }
   return tl
 }
@@ -114,10 +104,9 @@ export function buildScrollChoreography(): () => void {
 let bayTl: GSAPTimeline | null = null
 
 /** The car rolls into the lit garage bay on the left while a case study opens on the right. */
-export function openBay(engine?: EngineLike | null) {
+export function openBay() {
   const car = rig.car
   if (!car) return
-  engine?.blip(0.5)
   rig.scrollTl?.scrollTrigger?.disable(false)
   bayTl?.kill()
   const b = pose('bay')

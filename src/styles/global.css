@@ -350,34 +350,17 @@ main { transition: opacity .7s var(--ease-inout), filter .7s var(--ease-inout); 
   .bay-scrim { background: rgba(24,24,24,.5); }
 }
 
-/* ---------- tachometer cursor ---------- */
-.has-cursor, .has-cursor a, .has-cursor button, .has-cursor [data-cursor], .has-cursor .bay-scrim { cursor: none; }
-.cursor { position: fixed; top: 0; left: 0; z-index: 200; pointer-events: none; will-change: transform; width: 0; height: 0; }
-.cursor.is-hidden { opacity: 0; }
-.tacho { position: absolute; left: -24px; top: -24px; width: 48px; height: 48px; transform-origin: 50% 50%; transition: transform .28s var(--ease-out), opacity .2s; }
-.tacho-face { fill: rgba(24,24,24,.42); stroke: rgba(255,255,255,.55); stroke-width: 1; transition: stroke .25s, fill .25s; }
-.tacho .tick { stroke: rgba(255,255,255,.7); stroke-width: 1; }
-.tacho .tick.red { stroke: var(--primary); stroke-width: 1.4; }
-.tacho .needle { transform-origin: 24px 24px; transform: rotate(-135deg); }
-.tacho .needle line { stroke: var(--primary); stroke-width: 1.8; stroke-linecap: round; filter: drop-shadow(0 0 3px rgba(218,41,28,.9)); }
-.tacho .hub { fill: var(--ink); }
-.cursor.is-link .tacho { transform: scale(1.35); }
-.cursor.is-link .tacho-face { stroke: var(--primary); }
-.cursor.is-down .tacho { transform: scale(.9); }
-.cursor.is-link.is-down .tacho { transform: scale(1.15); }
-.cursor-label { position: absolute; left: 0; top: 40px; transform: translateX(-50%); white-space: nowrap; font-size: 10px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--on-primary); background: var(--primary); padding: 5px 9px; opacity: 0; transition: opacity .2s, transform .25s var(--ease-out); }
-.cursor.has-label .cursor-label { opacity: 1; transform: translate(-50%, 4px); }
-
-/* ---------- sound toggle ---------- */
-.sound { display: inline-flex; align-items: center; gap: 10px; color: var(--muted-soft); padding: 8px 0; transition: color .25s; }
-.sound:hover, .sound.is-on { color: var(--ink); }
-.sound .caption-upper { font-size: 11px; }
-.bars { display: inline-flex; align-items: flex-end; gap: 2px; height: 14px; }
-.bars i { display: block; width: 2px; height: 4px; background: currentColor; transition: height .25s; }
-.sound.is-on .bars i { background: var(--primary); animation: bar .7s ease-in-out infinite alternate; }
-.sound.is-on .bars i:nth-child(2) { animation-delay: .12s; } .sound.is-on .bars i:nth-child(3) { animation-delay: .24s; } .sound.is-on .bars i:nth-child(4) { animation-delay: .36s; }
-@keyframes bar { from { height: 3px; } to { height: 14px; } }
-.mobile-menu .sound { margin-top: var(--sm); }
+/* ---------- cursor ---------- */
+.has-cursor, .has-cursor a, .has-cursor button, .has-cursor [role="button"], .has-cursor [data-cursor], .has-cursor .bay-scrim { cursor: none; }
+.cursor-dot, .cursor-ring { position: fixed; top: 0; left: 0; z-index: 200; pointer-events: none; will-change: transform; width: 0; height: 0; transition: opacity .2s; }
+.cursor-dot.is-hidden, .cursor-ring.is-hidden { opacity: 0; }
+.cursor-dot::before { content: ''; position: absolute; left: -3px; top: -3px; width: 6px; height: 6px; border-radius: 50%; background: var(--primary); box-shadow: 0 0 0 1px rgba(24,24,24,.35); }
+.cursor-circle { position: absolute; left: -16px; top: -16px; width: 32px; height: 32px; border-radius: 50%; border: 1px solid rgba(255,255,255,.6); transform: scale(1); transition: transform .3s var(--ease-out), border-color .3s, background-color .3s; }
+.cursor-ring.is-link .cursor-circle { transform: scale(1.55); border-color: rgba(218,41,28,.9); background: rgba(218,41,28,.08); }
+.cursor-ring.is-down .cursor-circle { transform: scale(.8); }
+.cursor-ring.is-link.is-down .cursor-circle { transform: scale(1.3); }
+.cursor-label { position: absolute; left: 0; top: 30px; transform: translate(-50%, -4px); white-space: nowrap; font-size: 10px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--on-primary); background: var(--primary); padding: 5px 9px; opacity: 0; transition: opacity .2s, transform .25s var(--ease-out); }
+.cursor-ring.has-label .cursor-label { opacity: 1; transform: translate(-50%, 6px); }
 
 /* ---------- chassis plate footer ---------- */
 .plate { display: grid; grid-template-columns: 1fr; gap: var(--md); padding: var(--md); border: 1px solid var(--hairline); background: linear-gradient(180deg, #1d1d1d, #151515); margin-bottom: var(--xl); }
@@ -387,4 +370,19 @@ main { transition: opacity .7s var(--ease-inout), filter .7s var(--ease-inout); 
 .chassis-no strong { font-size: clamp(18px, 2vw, 24px); font-weight: 700; letter-spacing: .12em; color: var(--ink); font-variant-numeric: tabular-nums; }
 .plate-meta .caption a { color: var(--body); border-bottom: 1px solid var(--hairline); }
 .weave-wrap { overflow-x: auto; padding-bottom: 4px; }
-.weave { display: block; width: 100%; min-width: 560px; height: auto; }
+.weave { display: block; width: 100%; height: auto; }
+
+/* ---------- small screens ---------- */
+@media (max-width: 480px) {
+  .cta-row .btn { flex: 1 1 100%; }
+  .hero { padding-bottom: clamp(40px, 7vh, 80px); }
+  .hero-meta { margin-top: var(--lg); }
+  .race-row { padding: var(--sm) 0; }
+  .race-pos { font-size: 44px; }
+  .card { min-height: 0; }
+  .contact .email { font-size: clamp(20px, 6vw, 26px); }
+  .plate { padding: var(--sm); }
+  .launch .btn-primary { padding-inline: 20px; font-size: 13px; }
+  .spec-cell { padding: var(--xs) var(--xs) var(--sm); }
+  .spec-cell .number-display { font-size: 36px; }
+}

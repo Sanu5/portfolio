@@ -57,7 +57,7 @@ function CarDriver() {
 }
 
 /** Real HDRI for reflections plus a few strip lights and a faint red horizon, rendered once. */
-function Studio() {
+function Studio({ shadows }: { shadows: boolean }) {
   return (
     <>
       <Environment files={asset('hdr/studio_small_09_1k.hdr')} resolution={512} frames={1} environmentIntensity={0.55}>
@@ -75,7 +75,7 @@ function Studio() {
         intensity={260}
         decay={2}
         distance={40}
-        castShadow
+        castShadow={shadows}
         shadow-mapSize={[2048, 2048]}
         shadow-bias={-0.00015}
         shadow-normalBias={0.02}
@@ -160,7 +160,7 @@ export function Scene() {
   return (
     <div className="scene" aria-hidden="true">
       <Canvas
-        shadows={{ type: PCFShadowMap }}
+        shadows={narrow ? false : { type: PCFShadowMap }}
         dpr={[1, narrow ? 1.5 : 1.75]}
         camera={{ fov: 32, near: 0.1, far: 140, position: [0, 1.05, 7.4] }}
         gl={{ antialias: false, powerPreference: 'high-performance', stencil: false }}
@@ -168,7 +168,7 @@ export function Scene() {
         <color attach="background" args={[CANVAS]} />
         <fog attach="fog" args={[CANVAS, 9, 40]} />
         <Suspense fallback={null}>
-          <Studio />
+          <Studio shadows={!narrow} />
           <Car />
           <Floor reflective={!narrow} />
           <Bay />

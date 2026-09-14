@@ -14,13 +14,6 @@ export const rig = {
   lamp: { head: 0, brake: 0 },
   /** 0..1 garage-bay spotlight level. */
   bay: 0,
-  /** Engine speed shown on the tachometer cursor and heard from the engine. */
-  rpm: 900,
-  /** While the intro scores rpm itself, the live controller keeps its hands off. */
-  rpmLocked: false,
-  /** Pointer speed in px/s and whether it sits on something clickable (fed by the cursor). */
-  pointerSpeed: 0,
-  pointerHover: false,
   scrollTl: null as GSAPTimeline | null,
   view: { cx: 0, cy: 1.05, cz: 7.4, tx: 0, ty: 0.35, tz: 0 },
   pointer: { x: 0, y: 0 },
@@ -54,21 +47,22 @@ const DESKTOP: Record<string, Pose> = {
   bay: { x: -2.9, y: 0, z: -1.4, ry: P / 2 + 0.5, cam: [0.9, 1.3, 9.8], look: [-1.9, 0.55, -1.0] },
 }
 
+/** Portrait phones and small tablets. Landscape phones keep the desktop staging (they have the width for it). */
 export function isNarrow() {
-  return typeof window !== 'undefined' && window.innerWidth < 900
+  return typeof window !== 'undefined' && window.innerWidth < 900 && window.innerHeight >= window.innerWidth
 }
 
 /**
- * Portrait staging. A 4 m car that fits a 375 px viewport is small, so on phones it lives
- * above the headline in the hero, parks far back (fog-dimmed) behind text sections, and only
- * comes close for the head-on approach in Skills.
+ * Portrait staging. A 4 m car that fits a 375 px viewport is small and any text over it is
+ * unreadable, so on phones it sits above the headline in the hero, drives out of frame for the
+ * text sections, comes back head-on under the spec sheet, and leaves again at Contact.
  */
 const NARROW: Partial<Record<keyof typeof DESKTOP, Partial<Pose>>> = {
   intro: { x: 14, z: 0.4, ry: P / 2, cam: [0, 1.3, 13], look: [0, -0.55, 0] },
   hero: { x: 0.5, z: 0.4, ry: P / 2 + 0.85, cam: [0, 1.3, 13], look: [0, -0.55, 0] },
-  about: { x: -1.6, z: -12, ry: P / 2, cam: [0, 1.6, 13], look: [0, 0.2, -4] },
-  experience: { x: 2.4, z: -24, ry: -0.6, cam: [0, 2.2, 13], look: [0.5, 0.2, -8] },
-  projects: { x: -20, z: 0.4, ry: P / 2, cam: [0, 1.3, 13], look: [0, 0.2, 0] },
+  about: { x: -20, z: 0.4, ry: P / 2, cam: [0, 1.3, 13], look: [0, -0.2, 0] },
+  experience: { x: -20, z: 0.4, ry: P / 2, cam: [0, 1.3, 13], look: [0, -0.2, 0] },
+  projects: { x: -20, z: 0.4, ry: P / 2, cam: [0, 1.3, 13], look: [0, -0.2, 0] },
   skillsFar: { x: 0, z: -52, ry: P, cam: [0, 1.4, 12], look: [0, 1.9, 0] },
   skills: { x: 0, z: 0.5, ry: P, cam: [0, 1.4, 12], look: [0, 1.9, 0] },
   contact: { x: 22, z: 0.4, ry: (3 * P) / 2, cam: [0, 1.3, 13], look: [0, 0.2, 0] },

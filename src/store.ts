@@ -12,11 +12,9 @@ type State = {
   /** Set by the preloader when the scene never came up (no WebGL, background tab that never woke) — the site proceeds without the car. */
   gaveUp: boolean
   setGaveUp: () => void
-  /** Engine audio, created only from a user gesture (launch button or the nav sound toggle). */
+  /** Engine audio for the launch, created only from the tap on the launch button. */
   engine: EngineLike | null
   setEngine: (e: EngineLike | null) => void
-  muted: boolean
-  setMuted: (m: boolean) => void
   /** Slug of the project whose garage bay is open. */
   openProject: string | null
   setOpenProject: (slug: string | null) => void
@@ -32,8 +30,6 @@ export const useSite = create<State>((set) => ({
   setGaveUp: () => set({ gaveUp: true }),
   engine: null,
   setEngine: (engine) => set({ engine }),
-  muted: false,
-  setMuted: (muted) => set({ muted }),
   openProject: null,
   setOpenProject: (openProject) => set({ openProject }),
   reducedMotion:
